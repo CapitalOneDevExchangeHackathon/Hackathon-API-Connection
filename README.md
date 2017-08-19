@@ -2,7 +2,7 @@
 
 ### Connection Details
 
-API URL: [`api.devexhacks.com`](http://api.devexhacks.com)
+API URL: [`https://api.devexhacks.com`](https://api.devexhacks.com)
 
 ### Authorization Details
 
