@@ -1,0 +1,893 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Capital One Hackathon",
+		"_postman_id": "f3ac6dae-ff01-e536-1404-c357155dce20",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuth 2.0",
+			"description": "",
+			"item": [
+				{
+					"name": "Client Credentials Grant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var res = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", res.access_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://api.devexhacks.com/oauth2/token",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "vgw3sf4f8nq3b98i1gdfr8wpx4gpty0ska52",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "eb5f6rda6v0d1ld8y4fymkudo86gorrc47cj",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"description": "Authenticate"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Credit Offers",
+			"description": "",
+			"item": [
+				{
+					"name": "Product Listings",
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/credit-offers/products?limit=50&offset=0",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"credit-offers",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "50",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=3",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "List Products"
+					},
+					"response": []
+				},
+				{
+					"name": "Card Product Details",
+					"request": {
+						"url": "https://api.devexhacks.com/credit-offers/products/cards/consumer/{{product_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=3",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Card Product Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Prequalification Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var res = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"prequalification_id\", res.prequalificationId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://api.devexhacks.com/credit-offers/prequalifications",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=3",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\":\"Eugene\",\n  \"middleName\":\"\",\n  \"lastName\":\"Beaupre\",\n  \"nameSuffix\":\"Jr.\",\n  \"address\":{\n    \"addressLine1\":\"5151 N Cedar Ave\",\n    \"addressLine2\":\"\",\n    \"addressLine3\":\"\",\n    \"addressLine4\":\"\",\n    \"city\":\"Fresno\",\n    \"stateCode\":\"CA\",\n    \"postalCode\":\"93710\",\n    \"addressType\":\"Home\"\n    \n  },\n  \"taxId\":\"666666666\",\n  \"dateOfBirth\":\"1970-06-29\",\n  \"emailAddress\":\"ray@wyliehubbard.com\",\n  \"annualIncome\":75000,\n  \"selfAssessedCreditRating\":\"Average\",\n  \"bankAccountSummary\":\"CheckingOnly\",\n  \"requestedBenefit\":\"LowInterest\"\n}"
+						},
+						"description": "Prequalification Check"
+					},
+					"response": []
+				},
+				{
+					"name": "Prequalification Acknowledgement",
+					"request": {
+						"url": "https://api.devexhacks.com/credit-offers/prequalifications/{{prequalification_id}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=3",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hasBeenAcknowledged\":true\n}"
+						},
+						"description": "Prequalification Acknowledgement"
+					},
+					"response": []
+				},
+				{
+					"name": "Prequalification Summary",
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/credit-offers/prequalifications-summary?status=All",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"credit-offers",
+								"prequalifications-summary"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "All",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=3",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Prequalification Summary"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rewards",
+			"description": "",
+			"item": [
+				{
+					"name": "Rewards Accounts",
+					"request": {
+						"url": "https://api.devexhacks.com/rewards/accounts/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json; v=1",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwicGNrIjoxLCJhbGciOiJkaXIiLCJ0diI6Miwia2lkIjoiYTdxIn0..Q8EPUTo189PyagVaeXKw9XgvYN1pEz5Vgp1bgF4Hj9TE2anFkmGILcf7UX9iO6L0cUTgJQm3blatkUZUyUKc6cHFyyuVPKmtZDIU2zmP6VEhxmroUfeqh8YJnOEw9LRVKU1Pq4fVRuZMsIM1Mf6F2oMOAFL8JTw7AK4CQVUWtti4KHaNBtDX9cHOuwRtDbKhQbmySLP0g5ENzrC9gWMLprmq66hX5bI4TAiF2f7KlgjtT9lvph9pLyDsfBhtOanWj6gVmYMqxcNQlUHcgtsH3nlthX1PsOKQppDtmS09hPELzTxEn2kxk2btJ0KPy2iQFQyDSWfER1xgJnFDASr1sg8MNeQh3Qjmp4vuruQMimu1IFVvb1cIsIDS7cWPCUPa2UFYz9YfW1uXVnUpOyZTCWZ3E28YL70Rn2TbP4Hw030rgBWF5Ok1YD51e7BWJXXCq1lIWUG85WmjWZ5Il4nVNZBxBFDPR7lQMG2Gw36ibffzfTDwwHfWhlpkmbqtRLawKEVtYNDcpIvocujQJFHlwCRJ9uex5BXJzQQ6Mrp1cvxp3sp65mU5EPSU4J1OK0Iuj8Yv.I3YRuEIDtnqtHjjjrb9OK0A",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "List Rewards Accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "Rewards Account Details",
+					"request": {
+						"url": "https://api.devexhacks.com/rewards/accounts/{{rewards_account_reference_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json; v=1",
+								"description": ""
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwicGNrIjoxLCJhbGciOiJkaXIiLCJ0diI6Miwia2lkIjoiYTdxIn0..Q8EPUTo189PyagVaeXKw9XgvYN1pEz5Vgp1bgF4Hj9TE2anFkmGILcf7UX9iO6L0cUTgJQm3blatkUZUyUKc6cHFyyuVPKmtZDIU2zmP6VEhxmroUfeqh8YJnOEw9LRVKU1Pq4fVRuZMsIM1Mf6F2oMOAFL8JTw7AK4CQVUWtti4KHaNBtDX9cHOuwRtDbKhQbmySLP0g5ENzrC9gWMLprmq66hX5bI4TAiF2f7KlgjtT9lvph9pLyDsfBhtOanWj6gVmYMqxcNQlUHcgtsH3nlthX1PsOKQppDtmS09hPELzTxEn2kxk2btJ0KPy2iQFQyDSWfER1xgJnFDASr1sg8MNeQh3Qjmp4vuruQMimu1IFVvb1cIsIDS7cWPCUPa2UFYz9YfW1uXVnUpOyZTCWZ3E28YL70Rn2TbP4Hw030rgBWF5Ok1YD51e7BWJXXCq1lIWUG85WmjWZ5Il4nVNZBxBFDPR7lQMG2Gw36ibffzfTDwwHfWhlpkmbqtRLawKEVtYNDcpIvocujQJFHlwCRJ9uex5BXJzQQ6Mrp1cvxp3sp65mU5EPSU4J1OK0Iuj8Yv.I3YRuEIDtnqtHjjjrb9OK0A",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "List Rewards Account Details"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bank Account Starter",
+			"description": "",
+			"item": [
+				{
+					"name": "Account Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var res = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"application_id\", res.applicationId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-applications",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=2",
+								"description": ""
+							},
+							{
+								"key": "Customer-IP-Address",
+								"value": "123.45.67.890",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"applicants\":[{\"applicantRole\":\"primary\",\"firstName\":\"Nicole\",\"middleName\":\"Simone\",\"lastName\":\"Jackson\",\"taxIdType\":\"SSN\",\"taxId\":\"000-00-0001\",\"dateOfBirth\":\"1991-11-22\",\"homeAddress\":{\"addressLine1\":\"1234 Main Street\",\"addressLine2\":\"Apt. 604\",\"city\":\"Your Town\",\"stateCode\":\"VA\",\"postalCode\":\"22102\"},\"mailingAddress\":{\"addressLine1\":\"15 N. South St\",\"addressLine2\":\"Unit 6\",\"city\":\"Work\",\"stateCode\":\"VA\",\"postalCode\":\"22102\"},\"mobilePhoneNumber\":{\"phoneNumber\":\"1111111111\",\"acceptedTcpa\":true},\"homePhoneNumber\":{},\"workPhoneNumber\":{},\"emailAddress\":\"nsjackson@myemail.com\",\"backupWithholding\":false,\"citizenshipCountry\":\"USA\",\"secondaryCitizenshipCountry\":\"CAN\",\"employmentStatus\":\"Employed\",\"jobTitle\":\"Manager\",\"annualIncome\":75000}],\"productId\":\"3000\",\"cdTerm\":\"12M\",\"fundingDetails\":{\"fundingType\":\"fundach\",\"fundingAmount\":20.00,\"externalAccountDetails\":{\"accountNumber\":\"0987654\",\"bankABANumber\":\"121000248\",\"accountOwnership\":\"primary\"}},\"termsAndConditions\":{\"acceptAccountDisclosures\":true,\"acceptPaperlessAgreement\":true,\"acceptFraudProtection\":true}}"
+						},
+						"description": "Account Application"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Out of Wallet Questions",
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-applications/{{application_id}}/out-of-wallet",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=2",
+								"description": ""
+							},
+							{
+								"key": "Customer-IP-Address",
+								"value": "123.45.67.890",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Retrieve Out of Wallet Questions"
+					},
+					"response": []
+				},
+				{
+					"name": "Answer Out of Wallet Questions",
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-applications/{{application_id}}/out-of-wallet",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=2",
+								"description": ""
+							},
+							{
+								"key": "Customer-IP-Address",
+								"value": "123.45.67.890",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"answers\":[\n    {\n      \"questionId\":\"2\",\n      \"answerId\":\"1\",\n      \"timeTakenToAnswer\":1234\n    }\n  ]\n}"
+						},
+						"description": "Answer Out of Wallet Questions"
+					},
+					"response": []
+				},
+				{
+					"name": "Application Details",
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-applications/{{application_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json; v=2",
+								"description": ""
+							},
+							{
+								"key": "Customer-IP-Address",
+								"value": "123.45.67.890",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"answers\":[\n    {\n      \"questionId\":\"2\",\n      \"answerId\":\"1\",\n      \"timeTakenToAnswer\":1234\n      \n    }\n    ]\n}"
+						},
+						"description": "Application Details"
+					},
+					"response": []
+				},
+				{
+					"name": "Account Products",
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-products",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;v=2",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Account Products Details",
+					"request": {
+						"url": "https://api.devexhacks.com/deposits/account-products/{{account_product_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;v=2",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sign Up",
+			"description": "",
+			"item": [
+				{
+					"name": "Get User Info",
+					"request": {
+						"url": "https://api.devexhacks.com/oauth2/userinfo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwicGNrIjoxLCJhbGciOiJkaXIiLCJ0diI6Miwia2lkIjoiYTdxIn0..Q8EPUTo189PyagVaeXKw9XgvYN1pEz5Vgp1bgF4Hj9TE2anFkmGILcf7UX9iO6L0cUTgJQm3blatkUZUyUKc6cHFyyuVPKmtZDIU2zmP6VEhxmroUfeqh8YJnOEw9LRVKU1Pq4fVRuZMsIM1Mf6F2oMOAFL8JTw7AK4CQVUWtti4KHaNBtDX9cHOuwRtDbKhQbmySLP0g5ENzrC9gWMLprmq66hX5bI4TAiF2f7KlgjtT9lvph9pLyDsfBhtOanWj6gVmYMqxcNQlUHcgtsH3nlthX1PsOKQppDtmS09hPELzTxEn2kxk2btJ0KPy2iQFQyDSWfER1xgJnFDASr1sg8MNeQh3Qjmp4vuruQMimu1IFVvb1cIsIDS7cWPCUPa2UFYz9YfW1uXVnUpOyZTCWZ3E28YL70Rn2TbP4Hw030rgBWF5Ok1YD51e7BWJXXCq1lIWUG85WmjWZ5Il4nVNZBxBFDPR7lQMG2Gw36ibffzfTDwwHfWhlpkmbqtRLawKEVtYNDcpIvocujQJFHlwCRJ9uex5BXJzQQ6Mrp1cvxp3sp65mU5EPSU4J1OK0Iuj8Yv.I3YRuEIDtnqtHjjjrb9OK0C",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sign Up Button",
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/identity/signup/tools/web-button?redirectURI={{redirect_uri}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"identity",
+								"signup",
+								"tools",
+								"web-button"
+							],
+							"query": [
+								{
+									"key": "redirectURI",
+									"value": "{{redirect_uri}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Client-Correlation-Id",
+								"value": "abc123",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "text/html;v=1",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Returns fully-customized and ready-to-use HTML code you can use to add a Sign In with Capital One button to your experience.\n\nRequires this JS:  \n<script type=\"text/javascript\" src=\"https://identitytest.capitalone.com/c1-identity- buttons/js/script.min.js\"></script>"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sign In",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Sign In Button",
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/identity/signin/tools/web-button?redirectURI={{redirect_uri}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"identity",
+								"signin",
+								"tools",
+								"web-button"
+							],
+							"query": [
+								{
+									"key": "redirectURI",
+									"value": "{{redirect_uri}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Client-Correlation-Id",
+								"value": "abc123",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "text/html;v=1",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Returns fully-customized and ready-to-use HTML code you can use to add a Sign In with Capital One button to your experience.\n\nRequires this JS:  \n<script type=\"text/javascript\" src=\"https://identitytest.capitalone.com/c1-identity- buttons/js/script.min.js\"></script>"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Verify",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Salt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var res = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"salt\", res.salt);",
+									"postman.setEnvironmentVariable(\"salt_version\", res.saltVersion);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://api.devexhacks.com/identity/salt",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;v=1",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Client-Correlation-Id",
+								"value": "123xyz",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Prove Identity",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var salt = postman.getEnvironmentVariable(\"salt\");",
+									"postman.setEnvironmentVariable(\"ssn_token\", CryptoJS.SHA256(salt+\"555333333\"));",
+									"postman.setEnvironmentVariable(\"dob_token\", CryptoJS.SHA256(salt+\"06/10/1947\"));",
+									"postman.setEnvironmentVariable(\"ln_token\", CryptoJS.SHA256(salt+\"HANSEU\"));"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/identity/proof?ssnToken={{ssn_token}}&dateOfBirthToken={{dob_token}}&lastNameToken={{ln_token}}&saltVersion={{salt_version}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"identity",
+								"proof"
+							],
+							"query": [
+								{
+									"key": "ssnToken",
+									"value": "{{ssn_token}}",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "dateOfBirthToken",
+									"value": "{{dob_token}}",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "lastNameToken",
+									"value": "{{ln_token}}",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "saltVersion",
+									"value": "{{salt_version}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;v=1",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwicGNrIjoxLCJhbGciOiJkaXIiLCJ0diI6Miwia2lkIjoiYTdxIn0..Q8EPUTo189PyagVaeXKw9XgvYN1pEz5Vgp1bgF4Hj9TE2anFkmGILcf7UX9iO6L0cUTgJQm3blatkUZUyUKc6cHFyyuVPKmtZDIU2zmP6VEhxmroUfeqh8YJnOEw9LRVKU1Pq4fVRuZMsIM1Mf6F2oMOAFL8JTw7AK4CQVUWtti4KHaNBtDX9cHOuwRtDbKhQbmySLP0g5ENzrC9gWMLprmq66hX5bI4TAiF2f7KlgjtT9lvph9pLyDsfBhtOanWj6gVmYMqxcNQlUHcgtsH3nlthX1PsOKQppDtmS09hPELzTxEn2kxk2btJ0KPy2iQFQyDSWfER1xgJnFDASr1sg8MNeQh3Qjmp4vuruQMimu1IFVvb1cIsIDS7cWPCUPa2UFYz9YfW1uXVnUpOyZTCWZ3E28YL70Rn2TbP4Hw030rgBWF5Ok1YD51e7BWJXXCq1lIWUG85WmjWZ5Il4nVNZBxBFDPR7lQMG2Gw36ibffzfTDwwHfWhlpkmbqtRLawKEVtYNDcpIvocujQJFHlwCRJ9uex5BXJzQQ6Mrp1cvxp3sp65mU5EPSU4J1OK0Iuj8Yv.I3YRuEIDtnqtHjjjrb9OK0D",
+								"description": ""
+							},
+							{
+								"key": "Client-Correlation-Id",
+								"value": "abc123",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Verify Button",
+					"request": {
+						"url": {
+							"raw": "https://api.devexhacks.com/identity/proof/tools/web-button?redirectURI={{redirect_uri}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"devexhacks",
+								"com"
+							],
+							"path": [
+								"identity",
+								"proof",
+								"tools",
+								"web-button"
+							],
+							"query": [
+								{
+									"key": "redirectURI",
+									"value": "{{redirect_uri}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							},
+							{
+								"key": "Client-Correlation-Id",
+								"value": "abc123",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "text/html;v=1",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Returns fully-customized and ready-to-use HTML code you can use to add a Sign In with Capital One button to your experience.\n\nRequires this JS:  \n<script type=\"text/javascript\" src=\"https://identitytest.capitalone.com/c1-identity- buttons/js/script.min.js\"></script>"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
