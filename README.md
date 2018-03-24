@@ -2,7 +2,13 @@
 
 ### Connection Details
 
-API URL: [`https://api.dxhackathon.com`](https://api.dxhackathon.com)
+API Base URL: [`https://api.dxhackathon.com`](https://api.dxhackathon.com)
+
+### Documentation
+- [Money Movement](https://capitalone-devexchange.github.io/api-products/money-movement/documentation/) *Featured API* 
+- [Credit Offers](https://developer.capitalone.com/products/credit-offers/documentation/)
+- [Bank Account Starter](https://developer.capitalone.com/products/bank-account-starter/documentation/)
+- [Rewards](https://developer.capitalone.com/products/rewards/documentation/)
 
 ### Authorization Details
 
